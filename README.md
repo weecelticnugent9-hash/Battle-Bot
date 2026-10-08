@@ -1,3 +1,4 @@
+
 # Battles Bot
 
 A Discord ladder bot for Kingshot-style 1v1 battles: players register a
