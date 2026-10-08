@@ -1,0 +1,22 @@
+# Secrets - never commit these
+.env
+.env.*
+!.env.example
+
+# Database and its journals - the ladder lives on a Railway volume, not in git
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Dependencies and build output
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
