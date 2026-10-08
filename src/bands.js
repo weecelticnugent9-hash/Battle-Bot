@@ -97,3 +97,5 @@ export function pointsForResult({ winnerOrder, loserOrder, points }) {
 export function applyDelta(score, delta, floor) {
   return Math.max(floor, score + delta);
 }
+export const LOWEST_ORDER = BANDS[0].order;
+export const HIGHEST_ORDER = BANDS[BANDS.length - 1].order;
