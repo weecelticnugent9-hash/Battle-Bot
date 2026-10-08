@@ -1,0 +1,20 @@
+{
+  "name": "battles-bot",
+  "version": "1.0.0",
+  "description": "Battles ladder bot for Discord - registration, matchmaking, scoring and monthly leaderboard.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "register-commands": "node src/register-commands.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "better-sqlite3": "^11.5.0",
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3"
+  }
+}
