@@ -3,7 +3,7 @@
 // database, so this file is easy to test and easy to reason about.
 // ---------------------------------------------------------------------------
 
-import { BANDS, LOWEST_ORDER, HIGHEST_ORDER } from "./config.js";
+import { BANDS, LOWEST_ORDER as LOWEST, HIGHEST_ORDER as HIGHEST } from "./config.js";
 
 /**
  * The band a score falls into. Top band has no ceiling, bottom band is
