@@ -95,8 +95,38 @@ const now = () => Date.now();
  * files (matchmaker.js in particular) must go through this helper rather than
  * calling db.transaction themselves.
  */
-export function runInTransaction(fn) {
-  return db.transaction(fn);
+/**
+ * Reserve a match: create the match row and mark both tickets matched, in one
+ * atomic block. Lives here rather than in matchmaker.js because this is the
+ * only place with access to the raw SQLite instance.
+ *
+ * Returns the created match row (with its real id), or throws.
+ */
+export function reserveMatchRow({ playerA, playerB, bandA, bandB, pointsA, pointsB }) {
+  const tx = db.transaction(() => {
+    const info = db
+      .prepare(
+        `INSERT INTO matches
+           (player_a, player_b, band_a, band_b, points_a, points_b, status, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, 'active', ?)`,
+      )
+      .run(playerA, playerB, bandA, bandB, pointsA, pointsB, now());
+
+    // Both tickets move to 'matched' inside the same transaction, so the pair
+    // and the ticket states can never disagree.
+    db.prepare(
+      "UPDATE tickets SET status = 'matched', match_id = ? WHERE discord_id = ? AND status = 'open'",
+    ).run(info.lastInsertRowid, playerA);
+    db.prepare(
+      "UPDATE tickets SET status = 'matched', match_id = ? WHERE discord_id = ? AND status = 'open'",
+    ).run(info.lastInsertRowid, playerB);
+
+    return getMatch(info.lastInsertRowid);
+  });
+
+  return tx();
+}
+
 }
 
 // --- settings --------------------------------------------------------------
